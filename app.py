@@ -65,8 +65,7 @@ def create_app(db_url=None):
     def missing_token_callback(error):
         return (jsonify({"message": "Request does not contains an access token.", "error": "authorization_request"}), 401)
 
-    @app.before_first_request
-    def create_tables():
+    with app.app_context():
         db.create_all()
 
     api.register_blueprint(ItemBlueprint)
